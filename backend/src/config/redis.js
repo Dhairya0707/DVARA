@@ -18,12 +18,8 @@ const redisOptions = {
   },
 };
 
-// Auto-fix for Upstash: Force TLS if the user provided redis:// instead of rediss://
-if (
-  process.env.REDIS_URL &&
-  process.env.REDIS_URL.includes("upstash.io") &&
-  process.env.REDIS_URL.startsWith("redis://")
-) {
+// Auto-fix for Upstash: Force TLS
+if (process.env.REDIS_URL && process.env.REDIS_URL.includes("upstash.io")) {
   redisOptions.tls = { rejectUnauthorized: false };
 }
 
