@@ -3,10 +3,15 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+if (process.env.REDIS_URL && (process.env.REDIS_URL.startsWith("http://") || process.env.REDIS_URL.startsWith("https://"))) {
+  throw new Error("❌ CRITICAL ERROR: REDIS_URL must be a TCP connection string (starting with redis:// or rediss://), NOT an HTTP/REST URL. Please check your Upstash dashboard and copy the 'Redis URL', not the 'REST API' URL.");
+}
+
 const redisOptions = {
   maxRetriesPerRequest: null,
   connectTimeout: 10000,
   keepAlive: 1000,
+  family: 4,
   retryStrategy(times) {
     const delay = Math.min(times * 50, 2000);
     return delay;
@@ -14,7 +19,11 @@ const redisOptions = {
 };
 
 // Auto-fix for Upstash: Force TLS if the user provided redis:// instead of rediss://
-if (process.env.REDIS_URL && process.env.REDIS_URL.includes("upstash.io") && process.env.REDIS_URL.startsWith("redis://")) {
+if (
+  process.env.REDIS_URL &&
+  process.env.REDIS_URL.includes("upstash.io") &&
+  process.env.REDIS_URL.startsWith("redis://")
+) {
   redisOptions.tls = { rejectUnauthorized: false };
 }
 
