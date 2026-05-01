@@ -17,6 +17,12 @@ const buildApp = async () => {
   await app.register(cors, {
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
+    exposedHeaders: [
+      "X-RateLimit-Limit",
+      "X-RateLimit-Remaining",
+      "Retry-After",
+    ],
   });
 
   await app.register(jwt, {
