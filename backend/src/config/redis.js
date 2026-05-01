@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const redis = new Redis(process.env.REDIS_URL, {
+const redisOptions = {
   maxRetriesPerRequest: null,
   connectTimeout: 10000,
   keepAlive: 1000,
@@ -11,7 +11,14 @@ const redis = new Redis(process.env.REDIS_URL, {
     const delay = Math.min(times * 50, 2000);
     return delay;
   },
-});
+};
+
+// Auto-fix for Upstash: Force TLS if the user provided redis:// instead of rediss://
+if (process.env.REDIS_URL && process.env.REDIS_URL.includes("upstash.io") && process.env.REDIS_URL.startsWith("redis://")) {
+  redisOptions.tls = { rejectUnauthorized: false };
+}
+
+const redis = new Redis(process.env.REDIS_URL, redisOptions);
 
 export const luaScript = `
 -- Keys: [1] rate_limit_key
