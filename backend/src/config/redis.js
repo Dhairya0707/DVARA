@@ -1,0 +1,27 @@
+import Redis from "ioredis";
+import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const redis = new Redis(process.env.REDIS_URL);
+
+export const luaScript = fs.readFileSync(
+  path.join(__dirname, "../utils/redis/scripts/tokenBucket.lua"),
+  "utf8",
+);
+
+redis.on("connect", () => {
+  console.log("Redis Connected");
+});
+
+redis.on("error", (err) => {
+  console.error("Redis Error:", err);
+});
+
+export default redis;
