@@ -9,7 +9,9 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const redis = new Redis(process.env.REDIS_URL);
+const redis = new Redis(process.env.REDIS_URL, {
+  maxRetriesPerRequest: null,
+});
 
 export const luaScript = fs.readFileSync(
   path.join(__dirname, "../utils/redis/scripts/tokenBucket.lua"),
