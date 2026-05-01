@@ -1,29 +1,58 @@
 import Redis from "ioredis";
 import dotenv from "dotenv";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// const redis = new Redis(process.env.REDIS_URL, {
-//   maxRetriesPerRequest: null,
-// });
-
 const redis = new Redis(process.env.REDIS_URL, {
   maxRetriesPerRequest: null,
-  connectTimeout: 10000, // Wait 10s for connection
-  keepAlive: 1000, // Keep the connection alive
-  family: 4, // Use IPv4 to avoid potential DNS issues
+  connectTimeout: 10000,
+  keepAlive: 1000,
+  retryStrategy(times) {
+    const delay = Math.min(times * 50, 2000);
+    return delay;
+  },
 });
 
-export const luaScript = fs.readFileSync(
-  path.join(__dirname, "../utils/redis/scripts/tokenBucket.lua"),
-  "utf8",
-);
+export const luaScript = `
+-- Keys: [1] rate_limit_key
+-- Args: [1] cap (max tokens), [2] rate (tokens per second), [3] now (timestamp in seconds)
+
+local key = KEYS[1]
+local cap = tonumber(ARGV[1])
+local rate = tonumber(ARGV[2])
+local now = tonumber(ARGV[3])
+
+-- Get the current bucket state
+local bucket = redis.call('HMGET', key, 'tokens', 'last_refill')
+local tokens = tonumber(bucket[1])
+local last_refill = tonumber(bucket[2])
+
+-- Initialize bucket if it doesn't exist
+if not tokens then
+    tokens = cap
+    last_refill = now
+else
+    -- Refill tokens based on time passed
+    local elapsed = math.max(0, now - last_refill)
+    local refill = elapsed * rate
+    tokens = math.min(cap, tokens + refill)
+    last_refill = now
+end
+
+-- Check if we have enough tokens
+local allowed = false
+if tokens >= 1 then
+    tokens = tokens - 1
+    allowed = true
+end
+
+-- Save the new state
+redis.call('HMSET', key, 'tokens', tokens, 'last_refill', last_refill)
+-- Set expiry to avoid cluttering Redis
+redis.call('EXPIRE', key, 600)
+
+return { tostring(allowed), tostring(tokens) }
+`;
 
 redis.on("connect", () => {
   console.log("Redis Connected");
