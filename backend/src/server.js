@@ -14,7 +14,7 @@ const startServer = async () => {
     // but we can check it here if needed
 
     const app = await buildApp();
-    const port = process.env.PORT || 5002;
+    const port = process.env.PORT || 8080;
 
     await app.listen({ port, host: "0.0.0.0" });
     console.log(`Server listening on http://0.0.0.0:${port}`);
