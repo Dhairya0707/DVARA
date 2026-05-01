@@ -8,8 +8,10 @@ export const checkLimit = async (request, reply) => {
 
   try {
     const redisKey = `ratelimit:${apiKeyString}:${userIdentifier}`;
+    console.log(`Checking limit for key: ${redisKey}`);
     const now = Math.floor(Date.now() / 1000);
 
+    console.log("Calling redis.eval...");
     const result = await redis.eval(
       luaScript,
       1, // number of keys
@@ -18,6 +20,7 @@ export const checkLimit = async (request, reply) => {
       rate, // ARGV[2]
       now, // ARGV[3]
     );
+    console.log("redis.eval returned:", result);
 
     const [allowedStr, remainingStr] = result;
 
