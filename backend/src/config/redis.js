@@ -3,8 +3,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-if (process.env.REDIS_URL && (process.env.REDIS_URL.startsWith("http://") || process.env.REDIS_URL.startsWith("https://"))) {
-  throw new Error("❌ CRITICAL ERROR: REDIS_URL must be a TCP connection string (starting with redis:// or rediss://), NOT an HTTP/REST URL. Please check your Upstash dashboard and copy the 'Redis URL', not the 'REST API' URL.");
+if (
+  process.env.REDIS_URL &&
+  (process.env.REDIS_URL.startsWith("http://") ||
+    process.env.REDIS_URL.startsWith("https://"))
+) {
+  throw new Error(
+    "❌ CRITICAL ERROR: REDIS_URL must be a TCP connection string (starting with redis:// or rediss://), NOT an HTTP/REST URL. Please check your Upstash dashboard and copy the 'Redis URL', not the 'REST API' URL.",
+  );
 }
 
 const redisOptions = {

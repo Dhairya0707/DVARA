@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import api from '@/lib/api';
-import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import api from "@/lib/api";
+import Link from "next/link";
 import {
   ArrowRight,
   GaugeCircle,
@@ -11,27 +11,27 @@ import {
   Mail,
   Shield,
   Sparkles,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
-      const { data } = await api.post('/api/auth/login', { email, password });
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      router.push('/dashboard');
+      const { data } = await api.post("/api/auth/login", { email, password });
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      router.push("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || "Login failed :" + err);
     } finally {
       setLoading(false);
     }
@@ -59,7 +59,9 @@ export default function LoginPage() {
               <span />
             </div>
 
-            <p className="login-eyebrow">India&apos;s sovereign rate limit layer</p>
+            <p className="login-eyebrow">
+              India&apos;s sovereign rate limit layer
+            </p>
             <h1 className="font-serif text-5xl leading-[0.96] text-slate-950 sm:text-6xl lg:text-7xl">
               Control traffic with calm precision
             </h1>
@@ -70,9 +72,9 @@ export default function LoginPage() {
 
             <div className="mt-10 grid gap-4 sm:grid-cols-3">
               {[
-                ['Burst', 'Token bucket caps'],
-                ['Live', 'Instant key control'],
-                ['Clear', 'Simple API limits'],
+                ["Burst", "Token bucket caps"],
+                ["Live", "Instant key control"],
+                ["Clear", "Simple API limits"],
               ].map(([label, caption]) => (
                 <div className="login-proof" key={label}>
                   <span>{label}</span>
@@ -89,7 +91,9 @@ export default function LoginPage() {
               <div className="login-form-icon mb-6">
                 <GaugeCircle className="h-6 w-6" aria-hidden="true" />
               </div>
-              <p className="text-sm font-semibold text-blue-700">Welcome back</p>
+              <p className="text-sm font-semibold text-blue-700">
+                Welcome back
+              </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
                 Sign in to DVARA
               </h2>
@@ -149,8 +153,14 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <button type="submit" disabled={loading} className="btn-sarvam w-full">
-                <span>{loading ? 'Authenticating...' : 'Experience DVARA'}</span>
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-sarvam w-full"
+              >
+                <span>
+                  {loading ? "Authenticating..." : "Experience DVARA"}
+                </span>
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </button>
             </form>

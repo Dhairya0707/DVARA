@@ -379,4 +379,199 @@
   .dash-btn-cancel {
     @apply rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-600 transition-all duration-200 hover:bg-slate-50 hover:border-slate-300;
   }
+
+  /* ─── Landing Page ─── */
+
+  .landing-page {
+    @apply relative overflow-x-hidden;
+    background:
+      radial-gradient(circle at 50% -10%, rgba(247, 134, 78, 0.18), transparent 28rem),
+      radial-gradient(circle at 8% 18%, rgba(68, 110, 255, 0.12), transparent 26rem),
+      radial-gradient(circle at 92% 18%, rgba(78, 117, 255, 0.12), transparent 26rem),
+      linear-gradient(180deg, #f7f8fb 0%, #eef4ff 46%, #ffffff 100%);
+  }
+
+  .landing-fold {
+    @apply px-4 py-5 sm:px-6 lg:px-8;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .landing-canvas {
+    @apply relative mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-7xl flex-col overflow-hidden rounded-[28px] border border-white/80 bg-white/72 shadow-[0_34px_90px_rgba(56,69,97,0.16)] backdrop-blur-xl;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.48) 55%, rgba(205, 230, 236, 0.78) 100%),
+      radial-gradient(circle at 50% 0%, rgba(247, 134, 78, 0.16), transparent 20rem),
+      linear-gradient(180deg, #f9fbff 0%, #eaf4f8 62%, #bdd9d8 100%);
+  }
+
+  .landing-sky-wash {
+    @apply pointer-events-none absolute inset-x-0 top-0 z-0 h-2/3;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.42) 48%, rgba(255, 255, 255, 0) 100%),
+      radial-gradient(circle at 48% 20%, rgba(255, 255, 255, 0.82), transparent 20rem);
+  }
+
+  .landing-bg-img {
+    @apply pointer-events-none absolute inset-x-0 bottom-0 z-0 w-full select-none;
+    height: min(44vh, 25rem);
+    object-fit: cover;
+    object-position: center bottom;
+    opacity: 0.9;
+  }
+
+  .landing-nav {
+    @apply relative z-20 mx-auto flex h-16 w-full max-w-6xl flex-shrink-0 items-center justify-between px-4 sm:px-6;
+  }
+
+  .landing-nav-glass {
+    @apply rounded-full border border-white/60 bg-white/45 px-5 py-2 backdrop-blur-xl;
+  }
+
+  .landing-nav-brand {
+    @apply inline-flex items-center gap-2.5 text-lg font-bold tracking-tight text-slate-950;
+  }
+
+  .landing-brand-mark {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.14)];
+  }
+
+  .landing-menu-btn {
+    @apply relative z-50 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-900 backdrop-blur transition-colors hover:bg-white;
+  }
+
+  .landing-nav-link {
+    @apply text-sm font-semibold text-slate-800 transition-colors hover:text-slate-950;
+  }
+
+  .landing-hero {
+    @apply relative z-10 flex flex-col items-center text-center px-6;
+    flex: 1;
+    justify-content: center;
+    padding-bottom: 4rem; /* Spacing for the features row */
+  }
+
+  .landing-pill {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase backdrop-blur-xl border border-white/40 mb-6;
+    background: rgba(255, 255, 255, 0.3);
+    color: #0f172a;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  }
+
+  .landing-headline {
+    @apply text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 max-w-4xl tracking-tight text-slate-950;
+  }
+
+  .landing-headline span {
+    @apply text-white;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .landing-subheadline {
+    @apply text-base md:text-lg font-medium mb-10 max-w-xl mx-auto leading-relaxed text-slate-900/80;
+  }
+
+  .landing-cta-row {
+    @apply flex flex-col sm:flex-row items-center gap-4 justify-center;
+  }
+
+  .landing-features-inline {
+    @apply absolute bottom-12 left-1/2 -translate-x-1/2 w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-4 px-6 z-20;
+  }
+
+  .landing-feature-card {
+    @apply flex flex-col items-center text-center p-6 rounded-2xl backdrop-blur-xl border border-white/50 transition-all duration-300;
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+
+  .landing-feature-card:hover {
+    @apply -translate-y-1;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .landing-feature-icon {
+    @apply w-10 h-10 rounded-xl flex items-center justify-center text-slate-900 bg-white/50 border border-white/60 mb-3;
+  }
+
+  .landing-feature-title {
+    @apply text-sm font-bold text-slate-950 mb-1.5;
+  }
+
+  .landing-feature-desc {
+    @apply text-xs font-medium leading-relaxed text-slate-800;
+  }
+
+  /* Responsive Mobile Adjustments */
+  @media (max-width: 768px) {
+    .landing-hero {
+      padding-bottom: 24rem; /* Leave room for stacked feature cards */
+    }
+    .landing-features-inline {
+      bottom: 4rem;
+    }
+    .landing-headline {
+      @apply text-4xl;
+    }
+    .landing-subheadline {
+      @apply text-sm;
+    }
+  }
+
+  .landing-section {
+    @apply relative z-10 py-24 px-6 bg-white;
+  }
+
+  .landing-section-inner {
+    @apply max-w-5xl mx-auto;
+  }
+
+  .landing-section-label {
+    @apply text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-400;
+  }
+
+  .landing-section-heading {
+    @apply text-3xl md:text-5xl font-bold mb-16 text-slate-950 tracking-tight;
+  }
+
+  .landing-split-card {
+    @apply p-10 rounded-3xl border border-slate-100 bg-slate-50/50 transition-colors hover:bg-white hover:border-slate-200;
+  }
+
+  .landing-split-title {
+    @apply text-lg font-bold text-slate-950 mb-3;
+  }
+
+  .landing-split-text {
+    @apply text-sm font-medium text-slate-600 leading-relaxed;
+  }
+
+  .landing-footer {
+    @apply py-16 px-6 text-center bg-slate-950 text-white;
+  }
+
+  .landing-footer-brand {
+    @apply text-2xl font-bold tracking-tighter mb-4;
+  }
+
+  .landing-footer-text {
+    @apply text-slate-400 text-sm mb-10;
+  }
+
+  .landing-footer-copy {
+    @apply text-slate-600 text-xs font-medium;
+  }
+
+  .landing-menu-btn {
+    @apply relative z-50 p-2 rounded-xl bg-white/20 backdrop-blur-lg border border-white/30 text-slate-950;
+  }
+
+  .landing-mobile-menu {
+    @apply fixed inset-0 z-40 bg-white/95 backdrop-blur-2xl flex flex-col items-center justify-center gap-8 p-10;
+  }
+
+  .landing-mobile-menu a {
+    @apply text-3xl font-bold text-slate-950 transition-transform active:scale-95;
+  }
 }
